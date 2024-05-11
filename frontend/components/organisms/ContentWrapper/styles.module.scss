@@ -1,0 +1,9 @@
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-top: var(--size-p40);
+	margin-bottom: var(--size-p40);
+	gap: var(--size-p30);
+}

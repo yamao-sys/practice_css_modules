@@ -1,16 +1,11 @@
 import { ValidationErrorBox } from '@/components/atoms/ValidationErrorBox';
 import { InputForm } from '@/components/atoms/InputForm';
-import { theme } from '@/styles/theme';
-import styled from 'styled-components';
-
-type CssProps = {
-	width?: 'threeQuarters' | 'full';
-};
+import styles from './styles.module.scss';
 
 type Props = JSX.IntrinsicElements['input'] & {
 	validationErrors?: String[];
 	labelText?: string;
-} & CssProps;
+};
 
 export const InputFormArea = ({
 	type = 'text',
@@ -23,7 +18,7 @@ export const InputFormArea = ({
 }: Props) => {
 	return (
 		<>
-			<Wrapper>
+			<div className={styles.wrapper}>
 				<InputForm
 					labelText={labelText}
 					type={type}
@@ -35,12 +30,7 @@ export const InputFormArea = ({
 				{!!validationErrors.length && (
 					<ValidationErrorBox messages={validationErrors} />
 				)}
-			</Wrapper>
+			</div>
 		</>
 	);
 };
-
-const Wrapper = styled.div`
-	width: ${({ theme }) => theme.size.full};
-`;
-Wrapper.defaultProps = { theme: theme };

@@ -1,7 +1,8 @@
 import { Container } from '@/components/organisms/Container';
 import { ContentWrapper } from '@/components/organisms/ContentWrapper';
 import { ReactNode } from 'react';
-import styled from 'styled-components';
+
+import styles from './styles.module.scss';
 
 type Props = {
 	title: string;
@@ -12,13 +13,9 @@ export const BaseLayout = ({ title, children }: Props) => {
 	return (
 		<>
 			<Container>
-				<Title>{title}</Title>
+				<h1 className={styles.title}>{title}</h1>
 				<ContentWrapper>{children}</ContentWrapper>
 			</Container>
 		</>
 	);
 };
-
-const Title = styled.h1`
-	text-align: center;
-`;
