@@ -1,0 +1,52 @@
+version: "3.9"
+services:
+  web:
+    build: ./api_server
+    volumes:
+      - ./api_server:/api_server
+    ports:
+      - 8000:1234
+    env_file: ./api_server/.env.development
+    tty: true
+    stdin_open: true
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:8.0.28
+    container_name: db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: practice_css_modules
+      TZ: "Asia/Tokyo"
+    volumes:
+      - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./mysql:/var/lib/mysql
+  localstack:
+    image: localstack/localstack:latest
+    ports:
+      - 4567:4566
+    environment:
+      - SERVICES=s3
+    volumes:
+      - ./localstack:/etc/localstack/init/ready.d
+  frontend:
+    build:
+      context: ./frontend
+    volumes:
+      - ./frontend:/frontend
+      - ./api_server/app/swagger:/frontend/swagger
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    command: sh -c "sh ./bootstrap.sh"
+    container_name: frontend
+    ports:
+      - 3001:3000
+      - 6006:6006
+      - 9323:9323
+    env_file: ./frontend/.env.development
+    environment:
+      - DISPLAY=0
+    restart: always
+    tty: true
+    stdin_open: true
